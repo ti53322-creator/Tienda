@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique Strandivarius - Tienda en Línea</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Barra de Navegación -->
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="#" onclick="filterCategory('todos')">STRANDIVARIUS</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="filterCategory('todos')" class="active" id="nav-inicio">Inicio</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Categorías <i class="fas fa-caret-down"></i></a>
+                    <div class="dropdown-content">
+                        <a href="#" onclick="filterCategory('primavera')">Primavera</a>
+                        <a href="#" onclick="filterCategory('verano')">Verano</a>
+                        <a href="#" onclick="filterCategory('otonio')">Otoño</a>
+                        <a href="#" onclick="filterCategory('invierno')">Invierno</a>
+                    </div>
+                </li>
+                <li><a href="#" onclick="filterCategory('rebajas')" id="nav-rebajas">Rebajas</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Buscar productos..." oninput="searchProducts()">
+                    <i class="fas fa-search"></i>
+                </div>
+                <button class="cart-btn" onclick="toggleCartModal()">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main>
+        <section class="hero" id="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <span class="hero-badge">BOUTIQUE • COLECCIÓN 2026</span>
+                <h1 class="brand-hero-title">STRANDIVARIUS</h1>
+                <p class="hero-subtitle">Moda para Todas las <em>Estaciones</em></p>
+                <p>Descubre las últimas tendencias en ropa y accesorios diseñados con elegancia monocromática para cada momento del año.</p>
+                <div class="hero-buttons">
+                    <a href="#catalogo" class="btn-primary">Explorar Colección</a>
+                    <button class="btn-secondary" onclick="filterCategory('rebajas')">Ver Rebajas</button>
+                </div>
+            </div>
+            <a href="#catalogo" class="scroll-down" aria-label="Bajar al catálogo">
+                <span>Descubre más</span>
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </section>
+
+        <section class="products-section" id="catalogo">
+            <div class="section-title">
+                <h2 id="category-title">Catálogo Completo</h2>
+                <p id="category-subtitle">Explora nuestros productos seleccionados</p>
+            </div>
+            <div class="products-grid" id="products-container">
+                <!-- Se inyectan con JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal del Carrito y Pago -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="toggleCartModal()">&times;</button>
+            <h2>Tu Bolsa de Compras</h2>
+            
+            <div class="cart-layout">
+                <div class="cart-items-container">
+                    <div id="cart-items-list">
+                        <!-- Productos del carrito -->
+                    </div>
+                    <div class="cart-total">
+                        <h3>Total: $<span id="cart-total-price">0.00</span></h3>
+                    </div>
+                </div>
+
+                <div class="checkout-form-container">
+                    <h3>Datos de Envío y Pago</h3>
+                    <form id="checkout-form" onsubmit="processPayment(event)">
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo</label>
+                            <input type="text" id="nombre" required placeholder="Ej. Ana Gómez">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección de Envío</label>
+                            <input type="text" id="direccion" required placeholder="Calle, Número, Ciudad, CP">
+                        </div>
+                        <div class="form-group">
+                            <label for="card-num">Número de Tarjeta</label>
+                            <input type="text" id="card-num" required placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="exp">Expiración (MM/AA)</label>
+                                <input type="text" id="exp" required placeholder="MM/AA" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="password" id="cvv" required placeholder="123" maxlength="4">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-pay">Confirmar Pago</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Éxito de Compra -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="success-content">
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2>¡Pago Exitoso!</h2>
+            <p>Gracias por tu compra en Boutique Strandivarius. Tu pedido va en camino a tu dirección.</p>
+            <button class="btn-primary" onclick="closeSuccessModal()">Aceptar</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Boutique Strandivarius. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
